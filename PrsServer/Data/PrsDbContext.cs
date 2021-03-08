@@ -16,6 +16,7 @@ namespace PrsServer.Data
         public DbSet <Vendor> Vendors { get; set; }
         public DbSet <Product> Products { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<RequestLine> RequestLines { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,5 +24,7 @@ namespace PrsServer.Data
             builder.Entity<User>(e => { e.HasIndex(u => u.Username).IsUnique(true); });
             builder.Entity<Product>(e => { e.HasIndex(u => u.PartNbr).IsUnique(true); });
         }
+
+        public DbSet<PrsServer.Models.RequestLine> RequestLine { get; set; }
     }
 }

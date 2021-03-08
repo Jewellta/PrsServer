@@ -25,14 +25,13 @@ namespace PrsServer.Controllers
 		//PUT: api/Requests/Approve/5
 		#region
 		[HttpPut("Approve/{id}")]
-        public async Task<IActionResult> SetOrderStatusToApprove(int id)
+        public async Task<IActionResult> SetOrderStatusToApprove(int id, Request request)
         {
-            var request = await _context.Requests.FindAsync(id);
             if (request == null)
             {
                 return NotFound();
             }
-            request.Status = "Approved";
+            request.Status = "Approve";
             return await PutRequest(request.Id, request);
         }
 
@@ -56,23 +55,22 @@ namespace PrsServer.Controllers
         //PUT: api/request/Reject/5
         #region
         [HttpPut("Reject/{id}")]
-        public async Task<IActionResult> SetOrderStatusToReject(int id)
+        public async Task<IActionResult> SetOrderStatusToReject(int id,Request request)
         {
-            var request = await _context.Requests.FindAsync(id);
             if (request == null)
             {
                 return NotFound();
             }
 
-            request.Status = $"Denied {request.RejectionReason}";
+            request.Status = $"Rejected";
 
             return await PutRequest(request.Id, request);
         }
         #endregion
 
-        //GET: api/Requests/Reviews
+        //GET: api/Requests/GetReviews
         #region
-        [HttpGet("Reviews")]
+        [HttpGet("GetReviews")]
         public async Task<ActionResult<IEnumerable<Request>>> GetReviews()
         {
             return await _context.Requests.Include(u => u.User)
