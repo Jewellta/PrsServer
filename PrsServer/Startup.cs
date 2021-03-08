@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using PrsServer.Data;
 
 namespace PrsServer
 {
@@ -25,6 +27,11 @@ namespace PrsServer
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+
+		    services.AddDbContext<PrsDbContext>(options =>
+		            options.UseSqlServer(Configuration.GetConnectionString("PrsDb")));
+
+			services.AddCors();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +41,8 @@ namespace PrsServer
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 			app.UseRouting();
 
