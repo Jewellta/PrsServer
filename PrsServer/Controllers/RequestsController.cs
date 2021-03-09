@@ -25,8 +25,9 @@ namespace PrsServer.Controllers
 		//PUT: api/Requests/Approve/5
 		#region
 		[HttpPut("Approve/{id}")]
-        public async Task<IActionResult> SetOrderStatusToApprove(int id, Request request)
+        public async Task<IActionResult> SetOrderStatusToApprove(int id)
         {
+            var request = await _context.Requests.FindAsync(id);
             if (request == null)
             {
                 return NotFound();
@@ -55,17 +56,21 @@ namespace PrsServer.Controllers
         //PUT: api/Requests/Reject/5
         #region
         [HttpPut("Reject/{id}")]
-        public async Task<IActionResult> SetOrderStatusToReject(int id,Request request)
+        public async Task<IActionResult> SetOrderStatusToReject(int id)
         {
+            var request = await _context.Requests.FindAsync(id);
+
             if (request == null)
             {
                 return NotFound();
             }
 
-            request.Status = $"Rejected";
+            request.Status = "Rejected";      //{request.RejectionReason}
 
             return await PutRequest(request.Id, request);
+
         }
+
         #endregion
 
         //GET: api/Requests/GetReviews/5
