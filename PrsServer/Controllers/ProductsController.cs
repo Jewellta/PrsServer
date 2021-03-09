@@ -25,7 +25,9 @@ namespace PrsServer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.
+                Include(v =>v.Vendor)
+                .ToListAsync();
         }
 
         // GET: api/Products/5

@@ -91,7 +91,11 @@ namespace PrsServer.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Request>> GetRequest(int id)
         {
-            var request = await _context.Requests.FindAsync(id);
+            var request = await _context.Requests
+                .Include(u => u.User)
+                .Include(r=> r.RequestLines)
+                .ThenInclude(p => p.Product)
+                .SingleOrDefaultAsync(r =>r.Id==id);
 
             if (request == null)
             {
