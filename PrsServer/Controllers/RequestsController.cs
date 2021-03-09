@@ -52,7 +52,7 @@ namespace PrsServer.Controllers
         }
         #endregion
 
-        //PUT: api/request/Reject/5
+        //PUT: api/Requests/Reject/5
         #region
         [HttpPut("Reject/{id}")]
         public async Task<IActionResult> SetOrderStatusToReject(int id,Request request)
@@ -68,29 +68,27 @@ namespace PrsServer.Controllers
         }
         #endregion
 
-        //GET: api/Requests/GetReviews
+        //GET: api/Requests/GetReviews/5
         #region
-        [HttpGet("GetReviews")]
-        public async Task<ActionResult<IEnumerable<Request>>> GetReviews()
+        [HttpGet("GetReviews/{id}")]
+        public async Task<ActionResult<IEnumerable<Request>>> GetReviews(int id)
         {
             return await _context.Requests.Include(u => u.User)
-                        .Where(c => c.Status == "Review")
+                        .Where(c => c.Status == "Review" && c.UserId != id)
                         .ToListAsync(); }
-		#endregion
+        #endregion
 
-		// GET: api/Requests
-
-		[HttpGet("Requests")]
+        // GET: api/Requests
+        [HttpGet]
         #region
         public async Task<ActionResult<IEnumerable<Request>>> GetRequests()
         {
             return await _context.Requests.Include(u => u.User)
                 .ToListAsync();
         }
-		#endregion
-
-		// GET: api/Requests/5
-		[HttpGet("{id}")]
+        #endregion
+        // GET: api/Requests/5
+        [HttpGet("{id}")]
         public async Task<ActionResult<Request>> GetRequest(int id)
         {
             var request = await _context.Requests.FindAsync(id);
@@ -119,6 +117,7 @@ namespace PrsServer.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                //await CalculateTotal(request.RequestId);
             }
             catch (DbUpdateConcurrencyException)
             {

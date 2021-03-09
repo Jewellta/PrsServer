@@ -20,17 +20,18 @@ namespace PrsServer.Controllers
         {
             _context = context;
         }
+
         private async Task<IActionResult> CalculateTotal(int id)
-		{
+        {
             var request = await _context.Requests.FindAsync(id);
-            if(request == null) { return NotFound(); }
-            request.Total = _context.RequestLines
+            if (request == null) { return NotFound(); }
+            request.Total = _context.RequestLine
                 .Where(rl => rl.RequestId == id)
                 .Sum(rl => rl.Quantity * rl.Product.Price);
             var rowsAffected = await _context.SaveChangesAsync();
-            if(rowsAffected != 1) { throw new Exception("Failed to change request total"); }
+            if (rowsAffected != 1) { throw new Exception("Failed to change request total"); }
             return Ok();
-		}
+        }
 
         // GET: api/RequestLines
         [HttpGet]
@@ -69,6 +70,7 @@ namespace PrsServer.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                await CalculateTotal(requestLine.RequestId);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -93,6 +95,7 @@ namespace PrsServer.Controllers
         {
             _context.RequestLine.Add(requestLine);
             await _context.SaveChangesAsync();
+            await CalculateTotal(requestLine.RequestId);
 
             return CreatedAtAction("GetRequestLine", new { id = requestLine.Id }, requestLine);
         }
@@ -109,6 +112,7 @@ namespace PrsServer.Controllers
 
             _context.RequestLine.Remove(requestLine);
             await _context.SaveChangesAsync();
+            await CalculateTotal(requestLine.RequestId);
 
             return requestLine;
         }
