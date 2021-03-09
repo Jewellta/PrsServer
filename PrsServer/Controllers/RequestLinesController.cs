@@ -67,6 +67,11 @@ namespace PrsServer.Controllers
                 return BadRequest();
             }
 
+            if(requestLine.Quantity <= 1)
+			{
+                throw new Exception(" not allowed to be less than 0");
+			}
+
             _context.Entry(requestLine).State = EntityState.Modified;
 
             try
@@ -95,6 +100,10 @@ namespace PrsServer.Controllers
         [HttpPost]
         public async Task<ActionResult<RequestLine>> PostRequestLine(RequestLine requestLine)
         {
+            if (requestLine.Quantity <= 1)
+            {
+                throw new Exception(" not allowed to be less than 0");
+            }
             _context.RequestLine.Add(requestLine);
             await _context.SaveChangesAsync();
             await CalculateTotal(requestLine.RequestId);
