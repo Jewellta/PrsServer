@@ -21,6 +21,8 @@ namespace PrsServer.Controllers
             _context = context;
         }
 
+        //calculate total
+        #region
         private async Task<IActionResult> CalculateTotal(int id)
         {
             var request = await _context.Requests.FindAsync(id);
@@ -32,15 +34,19 @@ namespace PrsServer.Controllers
             if (rowsAffected != 1) { throw new Exception("Failed to change request total"); }
             return Ok();
         }
+        #endregion
 
         // GET: api/RequestLines
+        #region
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RequestLine>>> GetRequestLine()
         {
             return await _context.RequestLine.Include (p =>p.Product).ToListAsync();
         }
+        #endregion
 
         // GET: api/RequestLines/5
+        #region
         [HttpGet("{id}")]
         public async Task<ActionResult<RequestLine>> GetRequestLine(int id)
         {
@@ -55,8 +61,10 @@ namespace PrsServer.Controllers
 
             return requestLine;
         }
+        #endregion
 
         // PUT: api/RequestLines/5
+        #region
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -93,8 +101,10 @@ namespace PrsServer.Controllers
 
             return NoContent();
         }
+        #endregion
 
         // POST: api/RequestLines
+        #region
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -110,8 +120,10 @@ namespace PrsServer.Controllers
 
             return CreatedAtAction("GetRequestLine", new { id = requestLine.Id }, requestLine);
         }
+        #endregion
 
         // DELETE: api/RequestLines/5
+        #region
         [HttpDelete("{id}")]
         public async Task<ActionResult<RequestLine>> DeleteRequestLine(int id)
         {
@@ -127,8 +139,9 @@ namespace PrsServer.Controllers
 
             return requestLine;
         }
+		#endregion
 
-        private bool RequestLineExists(int id)
+		private bool RequestLineExists(int id)
         {
             return _context.RequestLine.Any(e => e.Id == id);
         }

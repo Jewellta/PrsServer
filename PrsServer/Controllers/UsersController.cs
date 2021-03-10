@@ -22,13 +22,16 @@ namespace PrsServer.Controllers
         }
 
         // GET: api/Users
+        #region
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
             return await _context.Users.ToListAsync();
         }
+        #endregion
 
         // GET: api/Users/5
+        #region
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
@@ -41,7 +44,10 @@ namespace PrsServer.Controllers
 
             return user;
         }
+        #endregion
+
         // GET: api/UsersLogin/"Username"/"Password"
+        #region
         [HttpGet("{Username}/{Password}")]
         public async Task<ActionResult<User>> GetUserLogin(string username, string password)
         {
@@ -54,8 +60,10 @@ namespace PrsServer.Controllers
 
             return user;
         }
+        #endregion
 
         // PUT: api/Users/5
+        #region
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -86,8 +94,10 @@ namespace PrsServer.Controllers
 
             return NoContent();
         }
+        #endregion
 
         // POST: api/Users
+        #region
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -98,8 +108,10 @@ namespace PrsServer.Controllers
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
+        #endregion
 
         // DELETE: api/Users/5
+        #region
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
@@ -114,8 +126,9 @@ namespace PrsServer.Controllers
 
             return user;
         }
+		#endregion
 
-        private bool UserExists(int id)
+		private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
         }

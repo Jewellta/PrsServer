@@ -22,6 +22,7 @@ namespace PrsServer.Controllers
         }
 
         // GET: api/Products
+        #region
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
@@ -29,8 +30,10 @@ namespace PrsServer.Controllers
                 Include(v =>v.Vendor)
                 .ToListAsync();
         }
+        #endregion
 
         // GET: api/Products/5
+        #region
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
@@ -43,8 +46,10 @@ namespace PrsServer.Controllers
 
             return product;
         }
+        #endregion
 
         // PUT: api/Products/5
+        #region
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -75,8 +80,10 @@ namespace PrsServer.Controllers
 
             return NoContent();
         }
+        #endregion
 
         // POST: api/Products
+        #region
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -87,8 +94,10 @@ namespace PrsServer.Controllers
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
+        #endregion
 
         // DELETE: api/Products/5
+        #region
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
@@ -103,8 +112,9 @@ namespace PrsServer.Controllers
 
             return product;
         }
+		#endregion
 
-        private bool ProductExists(int id)
+		private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Id == id);
         }

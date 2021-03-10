@@ -84,15 +84,17 @@ namespace PrsServer.Controllers
         #endregion
 
         // GET: api/Requests
-        [HttpGet]
         #region
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequests()
         {
             return await _context.Requests.Include(u => u.User)
                 .ToListAsync();
         }
         #endregion
+
         // GET: api/Requests/5
+        #region
         [HttpGet("{id}")]
         public async Task<ActionResult<Request>> GetRequest(int id)
         {
@@ -109,8 +111,10 @@ namespace PrsServer.Controllers
 
             return request;
         }
+        #endregion
 
         // PUT: api/Requests/5
+        #region
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -142,8 +146,10 @@ namespace PrsServer.Controllers
 
             return NoContent();
         }
+        #endregion
 
         // POST: api/Requests
+        #region
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -154,8 +160,10 @@ namespace PrsServer.Controllers
 
             return CreatedAtAction("GetRequest", new { id = request.Id }, request);
         }
+        #endregion
 
         // DELETE: api/Requests/5
+        #region
         [HttpDelete("{id}")]
         public async Task<ActionResult<Request>> DeleteRequest(int id)
         {
@@ -170,8 +178,9 @@ namespace PrsServer.Controllers
 
             return request;
         }
+		#endregion
 
-        private bool RequestExists(int id)
+		private bool RequestExists(int id)
         {
             return _context.Requests.Any(e => e.Id == id);
         }
