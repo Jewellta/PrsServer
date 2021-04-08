@@ -56,10 +56,9 @@ namespace PrsServer.Controllers
         //PUT: api/Requests/Reject/5
         #region
         [HttpPut("Reject/{id}")]
-        public async Task<IActionResult> SetOrderStatusToReject(int id)
+        public async Task<IActionResult> SetOrderStatusToReject(int id,Request request)
         {
-            var request = await _context.Requests.FindAsync(id);
-
+            
             if (request == null)
             {
                 return NotFound();
@@ -75,11 +74,11 @@ namespace PrsServer.Controllers
 
         //GET: api/Requests/Reviews
         #region
-        [HttpGet("Reviews")]
-        public async Task<ActionResult<IEnumerable<Request>>> Reviews()
+        [HttpGet("Reviews/{id}")]
+        public async Task<ActionResult<IEnumerable<Request>>> Reviews(int id)
         {
             return await _context.Requests.Include(u => u.User)
-                        .Where(u => u.Status == "Review")
+                        .Where(c => c.Status == "Review" && c.UserId != id)
                         .ToListAsync(); }
         #endregion
 
