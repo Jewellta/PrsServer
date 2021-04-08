@@ -37,7 +37,9 @@ namespace PrsServer.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products
+                .Include(v =>v.Vendor)
+                .SingleOrDefaultAsync(r => r.Id == id);
 
             if (product == null)
             {

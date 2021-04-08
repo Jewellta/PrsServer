@@ -48,7 +48,7 @@ namespace PrsServer.Controllers
 
         // GET: api/UsersLogin/"Username"/"Password"
         #region
-        [HttpGet("{Username}/{Password}")]
+        [HttpGet("{username}/{password}")]
         public async Task<ActionResult<User>> GetUserLogin(string username, string password)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Username==username&& u.Password==password);

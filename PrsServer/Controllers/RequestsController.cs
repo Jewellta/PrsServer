@@ -73,13 +73,13 @@ namespace PrsServer.Controllers
 
         #endregion
 
-        //GET: api/Requests/GetReviews/5
+        //GET: api/Requests/Reviews
         #region
-        [HttpGet("GetReviews/{id}")]
-        public async Task<ActionResult<IEnumerable<Request>>> GetReviews(int id)
+        [HttpGet("Reviews")]
+        public async Task<ActionResult<IEnumerable<Request>>> Reviews()
         {
             return await _context.Requests.Include(u => u.User)
-                        .Where(c => c.Status == "Review" && c.UserId != id)
+                        .Where(u => u.Status == "Review")
                         .ToListAsync(); }
         #endregion
 
